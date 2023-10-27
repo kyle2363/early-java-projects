@@ -14,6 +14,7 @@ public class Bucket_Sort {
     }
     public static Node getInput()
     {
+        @SuppressWarnings("resource")
         Scanner c=new Scanner(System.in);
         System.out.println("Type a number or -1 to exit");
         int input= c.nextInt();
