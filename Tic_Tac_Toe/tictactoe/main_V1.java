@@ -5,7 +5,7 @@ public class main_V1
     public static void main(String[] args)
     {
         char[][] borad=new char[J][K];
-        ArrayList<Piece_V22> pieces=new ArrayList<>();
+        ArrayList<Piece_V1> pieces=new ArrayList<>();
         boolean gameend=false;
         Scanner c=new Scanner(System.in);
         int count=0;
@@ -40,10 +40,10 @@ public class main_V1
             count++;
         }
     }
-    public static void check(char[][] b,ArrayList<Piece_V22> p,char cha)
+    public static void check(char[][] b,ArrayList<Piece_V1> p,char cha)
     {
         System.out.println();
-        Piece_V22 temp=p.get(p.size()-1);
+        Piece_V1 temp=p.get(p.size()-1);
         int inRow=1,inRowFlat=1,inRowfs=1,inRowbs=1;
         for(int i=1;i<=L;i++)
         {
@@ -85,14 +85,14 @@ public class main_V1
             System.out.println(cha+" Wins");
         }
     }
-    public static void updateChar(ArrayList<Piece_V22> p, char[][] b)
+    public static void updateChar(ArrayList<Piece_V1> p, char[][] b)
     {
-        for(Piece_V22 n:p)
+        for(Piece_V1 n:p)
         {
             b[n.getY()][n.getX()]=n.getP();
         }
     }
-    public static Piece_V22 input(Scanner c,int n,int count,ArrayList<Piece_V22> pi)
+    public static Piece_V1 input(Scanner c,int n,int count,ArrayList<Piece_V1> pi)
     {
         String info=c.nextLine();
         char p;
@@ -110,7 +110,7 @@ public class main_V1
         }
         int x=Integer.parseInt(info.substring(0,info.indexOf(' ')));
         int y=Integer.parseInt(info.substring(info.indexOf(' ')+1,info.length()));
-        for(Piece_V22 p2:pi)
+        for(Piece_V1 p2:pi)
         {
             if(p2.getX()==x && p2.getY()==y)
             {
@@ -118,7 +118,7 @@ public class main_V1
                 return input(c,n,count,pi);
             }
         }
-        return new Piece_V22(p,x,y,count);
+        return new Piece_V1(p,x,y,count);
     }
     public static void printborad(char[][] b)
     {

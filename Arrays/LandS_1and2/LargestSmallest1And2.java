@@ -11,7 +11,7 @@ public class LargestSmallest1And2
 {
     public static void main(String[] args)
     {
-        int input=getInput(),max1,max2,min1,min2;
+        int input=getInput(),min2=0;//,max1,max2,min1,min2;
         int[] a={input,input,input,input};//max1,max2,min1,min2
         NodeALS front=new NodeALS(null,null,input),current,temp;
         print(front,a);
@@ -73,13 +73,15 @@ public class LargestSmallest1And2
                 a[3]=input;
             }
             print(front,a);
+            //just to remove the warning
         }
     }
     public static int getInput()
     {
-        Scanner c=new Scanner(System.in);
-        System.out.println("\nPick a number");
-        return c.nextInt();
+        try (Scanner c = new Scanner(System.in)) {
+            System.out.println("\nPick a number");
+            return c.nextInt();
+        }
     }
     public static void print(NodeALS f,int[] a)
     {

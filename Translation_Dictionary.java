@@ -51,7 +51,7 @@ import java.util.TreeMap;
 public class Translation_Dictionary {
 
     public static void main(String[] args) {
-        Map<String, Set> EnglishToSpanishMapDictionary = new TreeMap<String, Set>();
+        Map<String, Set<String>> EnglishToSpanishMapDictionary = new TreeMap<>();
         Map reverseMap_SpanishToEnglishMapDictionary;
         String wordsAndTranslationsArray[][] = { // English to Spanish where the first element of each row
                 { "holiday", "fiesta", "vacaciones" }, // is the 'key' and the 'value' is a set containing
@@ -91,14 +91,14 @@ public class Translation_Dictionary {
      * that contains the given translation.
      */
     public static void add(Map dictionary, String word, String wordTranslation) {
-        Set temp = new TreeSet();
+        Set<String> temp = new TreeSet<String>();
         // ======================= YOUR CODE HERE =======================
         if (dictionary.containsKey(word)) {
-            temp = (Set) dictionary.get(word);
+            temp = (Set<String>) dictionary.get(word);
             temp.add(wordTranslation);
         } else {
-            dictionary.put(word, new TreeSet());
-            temp = (Set) dictionary.get(word);
+            dictionary.put(word, new TreeSet<String>());
+            temp = (Set<String>) dictionary.get(word);
             temp.add(wordTranslation);
         }
 
