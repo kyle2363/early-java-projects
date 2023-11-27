@@ -1,0 +1,19 @@
+import java.nio.file.*;
+import java.io.*;
+import java.lang.*;
+class TestClass{
+    public static void main() throws IOException
+    {
+        try{
+        System.out.println("Code works2");
+    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");
+    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");
+    myWriter.write("works");
+    myWriter.close();
+        }catch(Exception e)
+        {
+            System.out.println("error");
+        }
+    }
+}
+

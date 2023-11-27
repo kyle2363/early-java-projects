@@ -1,0 +1,101 @@
+Compilation has succeeded
+Code works
+Compilation has succeeded
+Code works
+Compilation has succeeded
+Code works
+Compilation has succeeded
+Code works
+Compilation has succeeded
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}
+Code works
+Compilation has succeeded
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+Code works
+Compilation has succeeded
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+Code works
+Compilation has succeeded
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+Code works
+Compilation has succeeded
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
+import java.nio.file.*;import java.io.*;import java.lang.*;class TestClass{    public static void main() throws IOException    {        try{        System.out.println("Code works");    File f=new File("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    FileWriter myWriter = new FileWriter("C:\\\\Users\\\\Sae\\\\Documents\\\\bluej projects\\\\Spring Project 2023\\\\java in java\\\\output.txt");    myWriter.write("works");    myWriter.close();        }catch(Exception e)        {            System.out.println("error");        }    }}ok
+TestClass:2: error: ')' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                    ^
+TestClass:2: error: ';' expected
+import java.io.*; class TestClass{    public static void main() throws IOException{        System.out.println("test"i);File f=new File("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");FileWriter myWriter = new FileWriter("C:\\Users\\sproc\\Documents\\bluej projects\\Spring Project 2023\\java in java\\output.txt");myWriter.write("works");myWriter.close();}}
+                                                                                                                     ^
+2 errors
+error java.lang.ClassNotFoundException: TestClass
+Compilation fails.
