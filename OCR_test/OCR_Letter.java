@@ -1,0 +1,169 @@
+package OCR_test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
+public class OCR_Letter {
+    ArrayList<int[][]> cap,low,pun;
+    List<Character> punList;
+    String img, img2,img3;
+    BufferedImage myPicture, myPicture2,myPicture3;
+    int[][] capA, lowA,punA;
+
+    public OCR_Letter() {
+        img = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\Letter_cap.png";
+        img2 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\Letter_low.png";
+        img3 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\Screenshot (63).png";
+        try {
+            myPicture = ImageIO.read(new File(img));
+            myPicture2 = ImageIO.read(new File(img2));
+            myPicture3 = ImageIO.read(new File(img3));
+        } catch (IOException e) {
+        }
+        punList=new ArrayList<>();
+        capA = imgToArray(myPicture, 15);
+        lowA = imgToArray(myPicture2, 15);
+        punA=imgToArray(myPicture3, 15);
+        cap = createArrays(capA);
+        low = createArrays(lowA);
+        pun=createArrays(punA);
+        Collections.addAll(punList,'!','“','#' ,'&', '‘', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@');
+        
+    }
+
+    public int[][] getChar(char a) {
+        int[][] array = {};
+        if (a < 96) {
+            array = low.get(a - 97);
+        } else {
+            array = cap.get(a - 64);
+        }
+        return array;
+    }
+
+    public ArrayList<int[][]> createArrays(int[][] baseImg) {
+        ArrayList<int[][]> a = new ArrayList<>();
+        int top = 0, bottem = baseImg.length, width = baseImg[0].length;
+        // System.out.println(baseImg[0].length);
+        ArrayList<Integer> indexs = new ArrayList<>();
+        // code to isolate letter by gap between them
+        int temp = 0;
+        while (!lineCheckV(top, bottem, temp, 1, baseImg))
+            temp++;
+
+        for (int i = temp; i < width; i++) {
+            if (lineCheckV(top, bottem, i, 0, baseImg)) {
+                indexs.add(i);
+            }
+        }
+        // starting at temp create the indvidual arrays
+        int i = 0, r = 0;
+        System.out.println(baseImg.length);
+        while (i < indexs.size() - 1) {
+            r = i + 1;
+            while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
+                r++;
+            // System.out.println(top + " " + bottem + " " + i + " " + r);// indexs.get(i)+"
+            // "+indexs.get(r));
+            if(a.size()==1&& baseImg.length==140){
+                r++;
+                while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
+                    r++;
+                a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1, baseImg));
+            }else{
+                a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1, baseImg));
+            }
+            i = r + 1;
+            while (!lineCheckV(top, bottem, temp, 1, baseImg))
+                i++;
+        }
+        return a;
+    }
+
+    public static int[][] imgToArray(BufferedImage pic, int t) {
+        int h = pic.getHeight(), w = pic.getWidth();
+        int[][] a = new int[h + 2][w + 2];
+        for (int i = 1; i < h; i++) {
+            for (int j = 1; j < w; j++) {
+                Color c = new Color(pic.getRGB(j, i));
+                if (c.getRed() < t && c.getGreen() < t && c.getBlue() < t) {
+                    a[i][j] = 1;
+                }
+            }
+        }
+        boolean go = true;
+        int coloum = 0;
+        while (go) {
+            for (int i = 0; i < a.length; i++) {
+                if (a[i][coloum] == 1) {
+                    go = false;
+                    coloum--;
+                }
+            }
+            coloum++;
+        }
+        int[][] a2 = new int[h][w - coloum + 2];
+        for (int i = 0; i < h; i++) {
+            for (int j = coloum; j < h + 2; j++) {
+                a2[i][j - coloum] = a[i][j];
+            }
+        }
+
+        return a;
+    }
+
+    public boolean lineCheckV(int t, int b, int r, int n, int[][] baseImg) {
+        int hit = 0;
+        for (int i = t; i < b; i++) {
+            if (baseImg[i][r] == 1) {
+                hit++;
+            }
+        }
+        return hit > ((b - t) * (n / 100.0));
+    }
+
+    public boolean lineCheckH(int y, int l, int r, int n, int[][] baseImg) {
+        int hit = 0;
+        for (int i = l; i < r; i++) {
+            if (baseImg[y][i] == 1) {
+                hit++;
+            }
+        }
+        return hit > ((r - l) * (n / 100.0));
+    }
+
+    public int[][] copy2d(int t, int b, int l, int r, int[][] baseImg) {
+        while (!lineCheckH(t, l, r, 0, baseImg))
+            t++;
+        b--;
+        while (!lineCheckH(b, l, r, 0, baseImg))
+            b--;
+        int[][] a = new int[(b - t) + 2][(r - l) + 2];
+        for (int i = 0; i < b - t; i++) {
+            for (int j = 0; j < (r - l); j++) {
+                a[i + 1][j + 1] = baseImg[t + i][l + j];
+            }
+        }
+        return a;
+    }
+
+    public static void print2DArray(int[][] a) {
+        for (int[] n : a) {
+            System.out.print("[");
+            for (int i : n) {
+                if (i == 0) {
+                    System.out.print(" ");
+                } else {
+                    System.out.print(i + "");
+                }
+            }
+            System.out.println("]");
+        }
+    }
+
+}
