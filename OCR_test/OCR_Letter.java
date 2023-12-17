@@ -9,31 +9,38 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class OCR_Letter {
-    ArrayList<int[][]> cap,low,pun;
+    ArrayList<int[][]> cap, low, pun, edge;
     List<Character> punList;
-    String img, img2,img3;
-    BufferedImage myPicture, myPicture2,myPicture3;
-    int[][] capA, lowA,punA;
+    List<String> edgeList;
+    String img, img2, img3, img4;
+    BufferedImage myPicture, myPicture2, myPicture3, mypic4;
+    int[][] capA, lowA, punA, edgeA;
 
     public OCR_Letter() {
         img = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\Letter_cap.png";
         img2 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\Letter_low.png";
         img3 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\Screenshot (63).png";
+        img4 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\images\\edge2.png";
         try {
             myPicture = ImageIO.read(new File(img));
             myPicture2 = ImageIO.read(new File(img2));
             myPicture3 = ImageIO.read(new File(img3));
+            mypic4 = ImageIO.read(new File(img4));
         } catch (IOException e) {
         }
-        punList=new ArrayList<>();
+        punList = new ArrayList<>();
+        edgeList = new ArrayList<>();
         capA = imgToArray(myPicture, 15);
         lowA = imgToArray(myPicture2, 15);
-        punA=imgToArray(myPicture3, 15);
+        punA = imgToArray(myPicture3, 15);
+        edgeA = imgToArray(mypic4, 15);
         cap = createArrays(capA);
         low = createArrays(lowA);
-        pun=createArrays(punA);
-        Collections.addAll(punList,'!','“','#' ,'&', '‘', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@');
-        
+        pun = createArrays(punA);
+        edge = createArrays(edgeA);
+        Collections.addAll(punList, '!', '“', '#', '&', '‘', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=',
+                '>', '?', '@');
+        Collections.addAll(edgeList, "ff");
     }
 
     public int[][] getChar(char a) {
@@ -70,12 +77,12 @@ public class OCR_Letter {
                 r++;
             // System.out.println(top + " " + bottem + " " + i + " " + r);// indexs.get(i)+"
             // "+indexs.get(r));
-            if(a.size()==1&& baseImg.length==140){
+            if (a.size() == 1 && baseImg.length == 140) {
                 r++;
                 while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
                     r++;
                 a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1, baseImg));
-            }else{
+            } else {
                 a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1, baseImg));
             }
             i = r + 1;
@@ -107,13 +114,12 @@ public class OCR_Letter {
             }
             coloum++;
         }
-        int[][] a2 = new int[h][w - coloum + 2];
+        int[][] a2 = new int[h+2][w - coloum + 2];
         for (int i = 0; i < h; i++) {
             for (int j = coloum; j < h + 2; j++) {
                 a2[i][j - coloum] = a[i][j];
             }
         }
-
         return a;
     }
 

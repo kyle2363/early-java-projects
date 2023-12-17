@@ -43,7 +43,6 @@ public class OCR_Processor {
 
     public String string(ArrayList<ArrayList<int[][]>> LArray) {
         OCR_Letter letters = new OCR_Letter();
-        System.out.println(letters.cap.get(12).length);
         String s = "";
 
         for (int i = 0; i < spaceLM.get(0).size(); i++) {
@@ -52,11 +51,12 @@ public class OCR_Processor {
 
         for (int l = 0; l < LArray.size(); l++) {
             for (int i = 0; i < LArray.get(l).size(); i++) {
-                double[] data = new double[6];
+                double[] data = new double[8];
 
                 compair(letters.low, LArray.get(l).get(i), data, 0);
                 compair(letters.cap, LArray.get(l).get(i), data, 2);
                 compair(letters.pun, LArray.get(l).get(i), data, 4);
+                compair(letters.edge, LArray.get(l).get(i), data, 6);
                 String space = "", LAdd = "";
                 if (spaceLM.get(l).contains(i))
                     space = " ";
@@ -68,8 +68,12 @@ public class OCR_Processor {
                     if (data[2] > data[4]) {
                         LAdd = "" + ((char) (65 + data[3]));
                     } else {
-                        if (data[5] != -1) {
+                        if (data[5] > data[7] && data[5] != -1) {
                             LAdd = "" + letters.punList.get((int) data[5]);
+                        } else {
+                            if (data[7] != -1) {
+                                LAdd = "" + letters.edgeList.get((int) data[7]);
+                            }
                         }
                     }
                 }
@@ -167,16 +171,19 @@ public class OCR_Processor {
         while (!lineCheckV(top, bottem, temp, 0))
             temp++;
         for (int i = temp; i < baseImg[0].length; i++) {
-            if (lineCheckV(top, bottem, i, 1)
-                    || lineCheckV(top, bottem, i - 1, 1) && lineCheckV(top, bottem, i + 1, 1)) {
+            if (lineCheckV(top, bottem, i, 0)
+                    || lineCheckV(top, bottem, i - 1, 0) && lineCheckV(top, bottem, i + 1, 0)) {
                 indexs.add(i);
             }
         }
+        if (topN == 11) {
+            // System.out.println(indexs);
+        }
         // starting at temp create the indvidual arrays
         int i = 0, r = 0;
-        while (i < indexs.size() - 1) {
+        while (i < indexs.size() - 2) {
             r = i + 1;
-            while (r < indexs.size() - 2 && indexs.get(r) == (indexs.get(r + 1) - 1))
+            while (r < (indexs.size() - 3) && (indexs.get(r) == (indexs.get(r + 1) - 1)))
                 r++;
             // print2DArray(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
             // idea for more advance one go left to right documenting how far right the
@@ -185,6 +192,9 @@ public class OCR_Processor {
             // in the array then it found the second letter
             if (bottem - top > ((indexs.get(r) + 1) - indexs.get(i)) * 1.4) {
                 a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
+                //see why w is werid
+                if(i==0&&indexInA==0)
+                    print2DArray(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
             } else {
                 splitLetter(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1), a);
                 spacePlus = true;
@@ -200,7 +210,7 @@ public class OCR_Processor {
     }
 
     public void makeSpaceA(ArrayList<Integer> a, ArrayList<Integer> spaceL) {
-        double avg = 0;//, avg2 = 0;
+        double avg = 0;// , avg2 = 0;
         int total = 0, loc = 1;
         for (int i = 0; i < a.size() - 1; i++) {
             int space = a.get(i + 1) - a.get(i);
