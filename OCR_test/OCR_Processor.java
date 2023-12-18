@@ -22,7 +22,6 @@ public class OCR_Processor {
         for (int i = 2; i < lines; i++) {
             spaceLM.add(new ArrayList<>());
             indexsM.add(new ArrayList<>());
-            System.out.println(i);
             LArray.add(isolate_letters(new ArrayList<int[][]>(), (i - 2), i));
             // issue is in isolate
             makeSpaceA(indexsM.get(i - 2), spaceLM.get(i - 2));
