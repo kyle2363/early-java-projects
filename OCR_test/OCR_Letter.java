@@ -12,6 +12,7 @@ public class OCR_Letter {
     ArrayList<int[][]> cap, low, pun, edge;
     List<Character> punList;
     List<String> edgeList;
+    List<Integer> punListHeight;
     String img, img2, img3, img4;
     BufferedImage myPicture, myPicture2, myPicture3, mypic4;
     int[][] capA, lowA, punA, edgeA;
@@ -28,8 +29,11 @@ public class OCR_Letter {
             mypic4 = ImageIO.read(new File(img4));
         } catch (IOException e) {
         }
+        
         punList = new ArrayList<>();
         edgeList = new ArrayList<>();
+        //0 short 1 tall
+        punListHeight = new ArrayList<>();
         capA = imgToArray(myPicture, 15);
         lowA = imgToArray(myPicture2, 15);
         punA = imgToArray(myPicture3, 15);
@@ -39,8 +43,11 @@ public class OCR_Letter {
         pun = createArrays(punA);
         edge = createArrays(edgeA);
         Collections.addAll(punList, '!', '“', '#', '&', '‘', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=',
-                '>', '?', '@');
-        Collections.addAll(edgeList, "ff");
+                '>', '?', '@','`');
+
+
+        Collections.addAll(punListHeight,1,0,1,1,0,1,1,0,0,0,0,0,1,1,1,1,0,1,1,1);
+        Collections.addAll(edgeList, "ff","ft","rv", "tw", "rt", "fy", "fo","tw","fa");
     }
 
     public int[][] getChar(char a) {
@@ -75,6 +82,12 @@ public class OCR_Letter {
             r = i + 1;
             while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
                 r++;
+            if(pun!=null&&r+10 < indexs.size() - 1 && indexs.get(r+10) == (indexs.get(r + 11) - 1)
+                &&(indexs.get(r+10)-(indexs.get(r)))<20){
+                r+=10;
+                while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
+                    r++;
+            }
             // System.out.println(top + " " + bottem + " " + i + " " + r);// indexs.get(i)+"
             // "+indexs.get(r));
             if (a.size() == 1 && baseImg.length == 140) {

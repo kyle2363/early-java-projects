@@ -6,6 +6,7 @@ public class OCR_Processor {
     int[][] baseImg;
     ArrayList<ArrayList<Integer>> spaceLM, indexsM;
     int lines;
+    ArrayList<Integer> splitAt;
     boolean spacePlus;
 
     public OCR_Processor() {
@@ -17,17 +18,38 @@ public class OCR_Processor {
         baseImg = a;
         spaceLM = new ArrayList<>();
         indexsM = new ArrayList<>();
+        splitAt = new ArrayList<>();
+        baseImg = trimL(a);
         Align_Array();
         ArrayList<ArrayList<int[][]>> LArray = new ArrayList<>();
         for (int i = 2; i < lines; i++) {
+            int splitAtsize = splitAt.size();
             spaceLM.add(new ArrayList<>());
             indexsM.add(new ArrayList<>());
             LArray.add(isolate_letters(new ArrayList<int[][]>(), (i - 2), i));
-            // issue is in isolate
+            // issue is in isolate for wh
             makeSpaceA(indexsM.get(i - 2), spaceLM.get(i - 2));
             if (spacePlus) {
-                for (int j = 0; j < spaceLM.get(i - 2).size(); j++) {
-                    spaceLM.get(i - 2).set(j, spaceLM.get(i - 2).get(j) + 1);
+                System.out.println(splitAt.size()+" "+splitAtsize);
+                System.out.println("fix space"+spaceLM.get(i - 2));
+                for (int k = splitAt.size() -splitAtsize; k >0; k--) {
+                    int value=spaceLM.get(i - 2).indexOf(splitAt.get(splitAt.size()-k)),x=1;
+                    while(value==-1)
+                    {
+                        value=spaceLM.get(i - 2).indexOf(splitAt.get(splitAt.size()-k)+x);
+                        if (value==-1) {
+                            value=spaceLM.get(i - 2).indexOf(splitAt.get(splitAt.size()-k)-x);
+                        }
+                        x++;
+                    }
+                    System.out.println("v is "+value);
+                    for (int j = value+1; j < spaceLM.get(i - 2)
+                            .size(); j++) {
+                        if (j == -1) {
+                            j = 0;
+                        }
+                        spaceLM.get(i - 2).set(j, spaceLM.get(i - 2).get(j) + 1);
+                    }
                 }
                 spacePlus = false;
             }
@@ -43,7 +65,16 @@ public class OCR_Processor {
     public String string(ArrayList<ArrayList<int[][]>> LArray) {
         OCR_Letter letters = new OCR_Letter();
         String s = "";
-
+        int avgH = 0, avgW = 0, count = 0;
+        for (ArrayList<int[][]> a : LArray) {
+            for (int[][] n : a) {
+                avgH += n.length;
+                avgW += n[0].length;
+                count++;
+            }
+        }
+        avgH = (int) (avgH / (double) count);
+        avgW = (int) (avgW / (double) count);
         for (int i = 0; i < spaceLM.get(0).size(); i++) {
             // spaceLM.get(0).set(i,spaceLM.get(0).get(i)+1);
         }
@@ -51,46 +82,97 @@ public class OCR_Processor {
         for (int l = 0; l < LArray.size(); l++) {
             for (int i = 0; i < LArray.get(l).size(); i++) {
                 double[] data = new double[8];
-
-                compair(letters.low, LArray.get(l).get(i), data, 0);
-                compair(letters.cap, LArray.get(l).get(i), data, 2);
-                compair(letters.pun, LArray.get(l).get(i), data, 4);
-                compair(letters.edge, LArray.get(l).get(i), data, 6);
+                if (l == 13 && i == 5) {
+                    print2DArray(LArray.get(l).get(i));
+                }
+                int[][] temp = LArray.get(l).get(i);
+                compair(letters.low, temp, data, 0);
+                compair(letters.cap, temp, data, 2);
+                compair(letters.pun, temp, data, 4);
+                compair(letters.edge, temp, data, 6);
                 String space = "", LAdd = "";
                 if (spaceLM.get(l).contains(i))
                     space = " ";
-                // if (l == 0)
-                // System.out.println(Arrays.toString(data));
-                if (data[0] > data[2]) {
-                    LAdd = "" + ((char) (97 + data[1]));
-                } else {
-                    if (data[2] > data[4]) {
-                        LAdd = "" + ((char) (65 + data[3]));
-                    } else {
-                        if (data[5] > data[7] && data[5] != -1) {
-                            LAdd = "" + letters.punList.get((int) data[5]);
-                        } else {
-                            if (data[7] != -1) {
-                                LAdd = "" + letters.edgeList.get((int) data[7]);
-                            }
+                if (temp.length < avgH / 2 && data[5] != -1) {
+                    ArrayList<Double> temp2 = compair2(letters.pun, temp);
+                    double max = -2;
+                    int maxIndex = -1;
+                    for (int k = 0; k < temp2.size() - 1; k++) {
+                        if (letters.punListHeight.get(k) == 0 && temp2.get(k) > max) {
+                            max = temp2.get(k);
+                            maxIndex = k;
                         }
                     }
-                }
-                if (LAdd.equals("!") || LAdd.equals("i")) {
+                    LAdd = "" + letters.punList.get(maxIndex);
+                } else {
+                    double firstV = Integer.MIN_VALUE, firstL = -1, secondV = Integer.MIN_VALUE, secondL = -1;
+                    for (int d = 0; d < data.length; d += 2) {
+                        if (data[d] > firstV) {
+                            secondV = firstV;
+                            secondL = firstL;
+                            firstV = data[d];
+                            firstL = d;
+                        } else if (data[d] > secondV) {
+                            secondV = data[d];
+                            secondL = d;
+                        }
 
-                    if (!gap(LArray.get(l).get(i))) {
-                        LAdd = "l";
                     }
-                }
-                if (LAdd.equals("I") && s.charAt(s.length() - 1) != '.') {
-                    LAdd = "l";
-                }
-                s = s + space + LAdd;
+                    int value = ((int) firstL) / 2;
+                    if ((firstL == 3 && data[5] != -1 && letters.punListHeight.get((int) data[5]) == 0
+                            && temp.length > avgH / 2.0) || firstL > 3 && data[5] == 19) {
+                        value = ((int) secondL) / 2;
+                    }
+                    switch (value) {
+                        case 0:
+                            LAdd = "" + ((char) (97 + data[1]));
+                            break;
+                        case 1:
+                            LAdd = "" + ((char) (65 + data[3]));
+                            break;
+                        case 2:
+                            LAdd = "" + letters.punList.get((int) data[5]);
+                            break;
+                        case 3:
+                            LAdd = "" + letters.edgeList.get((int) data[7]);
+                            break;
+                    }
 
+                }
+                LAdd = edgeCase(LAdd, temp, s,avgH);
+                s = s + space + LAdd;
             }
-            s = s + "\n";
+            s = s + "\n(NL)";
         }
         return s;
+    }
+
+    public String edgeCase(String LAdd, int[][] temp, String s,int h) {
+        if (LAdd.equals("!") || LAdd.equals("i")) {
+
+            if (!gap(temp)) {
+                LAdd = "l";
+            }
+        }
+        if (LAdd.equals("I") && s.charAt(s.length() - 1) != '.'
+                || LAdd.equals(".") && temp[0].length * 2 < temp.length) {
+            LAdd = "l";
+        }
+        if (LAdd.equals("@") && gap(temp)) {
+            LAdd = "?";
+        }
+        if (LAdd.equals("/") && temp[0].length * 2 > temp.length)
+            LAdd = "ff";
+        if (LAdd.equals("/") && temp[0].length * 6 > temp.length) {
+            LAdd = "l";
+        }
+        if (LAdd.equals(".") && temp.length * 2 < temp[0].length)
+            LAdd = "-";
+        if (LAdd.equals("-") && temp.length > h)
+            LAdd = "l";
+        if (LAdd.equals("-") && temp.length > temp[0].length)
+            LAdd = ",";
+        return LAdd;
     }
 
     public boolean gap(int[][] a) {
@@ -137,6 +219,28 @@ public class OCR_Processor {
         data[1 + start] = maxIndex;
     }
 
+    public ArrayList<Double> compair2(ArrayList<int[][]> letter, int[][] base) {
+        double max = 0, maxIndex = -1;
+        ArrayList<Double> al = new ArrayList<>();
+        for (int j = 0; j < letter.size(); j++) {
+            int[][] temp = letter.get(j);
+            int[][] a = copy2d2(base);
+            if (a.length > temp.length) {
+                a = OCR_Scale.scaleYDown(a, temp.length);
+            } else {
+                a = OCR_Scale.scaleYUp(a, temp.length);
+            }
+            if (a[0].length > temp[0].length) {
+                a = OCR_Scale.scaleXDown(a, temp[0].length);
+            } else {
+                a = OCR_Scale.scaleXUp(a, temp[0].length);
+            }
+            double overlap = overLap(a, temp);
+            al.add(overlap);
+        }
+        return al;
+    }
+
     public double overLap(int[][] a1, int[][] a2) {
         int total = 0;
         for (int i = 0; i < a1.length; i++) {
@@ -156,7 +260,7 @@ public class OCR_Processor {
         int bottem = 0, top = 0;
         while (baseImg[top][1] != topN)
             top++;
-        bottem = top + 1;
+        bottem = top;
         ArrayList<Integer> indexs = indexsM.get(indexInA);
         for (int i = top + 1; i < baseImg.length; i++) {
             if (baseImg[i][0] != 0 && baseImg[i][0] != 1) {
@@ -169,7 +273,7 @@ public class OCR_Processor {
         int temp = 0;
         while (!lineCheckV(top, bottem, temp, 0))
             temp++;
-        for (int i = temp; i < baseImg[0].length; i++) {
+        for (int i = temp; i < baseImg[0].length - 1; i++) {
             if (lineCheckV(top, bottem, i, 0)
                     || lineCheckV(top, bottem, i - 1, 0) && lineCheckV(top, bottem, i + 1, 0)) {
                 indexs.add(i);
@@ -189,14 +293,20 @@ public class OCR_Processor {
             // first letter goes
             // then go to most far right one and if there is a space below it not mentioned
             // in the array then it found the second letter
-            if (bottem - top > ((indexs.get(r) + 1) - indexs.get(i)) * 1.4) {
+            if ((bottem - top > ((indexs.get(r) + 1) - indexs.get(i)) * 1.4)) {
                 a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
-                //see why w is werid
-                if(i==0&&indexInA==0)
-                    print2DArray(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
+                // see why w is werid
+                // if(i==0&&indexInA==0)
+                // print2DArray(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
             } else {
-                splitLetter(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1), a);
-                spacePlus = true;
+                if (splitcheck(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1))) {
+                    // print2DArray(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
+                    splitLetter(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1), a);
+                    spacePlus = true;
+                    splitAt.add(a.size() - 2);
+                } else {
+                    a.add(copy2d(top, bottem, indexs.get(i), indexs.get(r) + 1));
+                }
             }
             i = r + 1;
             while (!lineCheckV(top, bottem, temp, 0)) {
@@ -206,6 +316,29 @@ public class OCR_Processor {
         indexsM.set(indexInA, indexs);
         return a;
 
+    }
+
+    public boolean splitcheck(int[][] a) {
+        // print2DArray(a);
+        int rl = 0, x = 0;
+        while (rl < a.length && !lineCheckH(a, rl, rl, 0, (a[rl].length / 4) * 3 - 1, a[rl].length - 1)) {
+            // System.out.println(rl);
+            rl++;
+        }
+        rl++;
+
+        x = a[rl].length - 2;
+        while (x > 0 && a[rl][x] == 1) {
+            x--;
+        }
+        while (x > 0 && lineCheckV(rl, a.length, x, 0, a)) {
+            x--;
+        }
+        if (x > 0)
+            x--;
+        if (lineCheckV(0, a.length - 1, x, 0, a) == true && true == lineCheckV(rl, a.length - 1, x, 0, a))
+            return false;
+        return lineCheckV(0, a.length, x, 0, a) != lineCheckV(rl, a.length, x, 0, a);
     }
 
     public void makeSpaceA(ArrayList<Integer> a, ArrayList<Integer> spaceL) {
@@ -236,22 +369,33 @@ public class OCR_Processor {
     // going up down or diagonaly
     // simple way to increse speed, check for height of left and right letter
     public void splitLetter(int[][] a, ArrayList<int[][]> al) {
-        int lowerBound = a.length - 2, x = 0, y = a.length - 2;
-        while (a[lowerBound][x] == 0) {
-            x++;
+        //print2DArray(a);
+        int lowerBound = a.length / 2, x = 0, y = a.length - 2;
+        int rl = 0;
+        // using left 1/4 go down till hit letter then move left until there is no 1's
+        // below rl
+        while (rl < a.length && !lineCheckH(a, rl, rl, 0, (a[rl].length / 4) * 3 - 1, a[rl].length - 1)) {
+            // System.out.println(rl);
+            rl++;
         }
-        while (a[lowerBound][x] == 1) {
-            x++;
+        rl++;
+
+        x = a[rl].length - 1;
+        while (x > 0 && a[rl][x] == 0) {
+            x--;
         }
-        x++;
-        while (lineCheckH(a, y, y, 0, x, a[0].length)) {
-            y--;
+        while (x > 0 && a[rl][x] == 1) {
+            x--;
         }
-        System.out.println(y + " " + a.length + " " + x + " " + a[0].length);
-        int[][] rightLetter = copy2d(a, y, a.length, x, a[0].length);
-        int[][] temp = fillXY(copy2d(a, 0, a.length, 0, a[0].length), y, a.length, x, a[0].length);
+        while (x > 0 && lineCheckV(rl, a.length, x, 0, a)) {
+            x--;
+        }
+        // System.out.println(x+" "+rl);
+        int[][] rightLetter = copy2d(a, rl - 1, a.length, x, a[0].length);
+        int[][] temp = fillXY(copy2d(a, 0, a.length, 0, a[0].length), rl - 1, a.length, x, a[0].length);
         int[][] leftLetter = copy2d(temp, 0, a.length, 0, a[0].length);
-        // print2DArray(a);
+        // print2DArray(trim(leftLetter));
+        // print2DArray(trim(rightLetter));
         al.add(trim(leftLetter));
         al.add(trim(rightLetter));
     }
@@ -310,16 +454,16 @@ public class OCR_Processor {
         return hit > ((y - x) * (n / 100.0));
     }
 
-    public boolean lineCheckH(int[][] a, int l, int r, int n, int x, int y) {
+    public boolean lineCheckH(int[][] a, int y, int DNE, int n, int l, int r) {
         // double slope = (r - l) / baseImg.length;
         // l+r is the left and right Y values
         int hit = 0;
-        for (int i = x; i < y; i++) {
-            if (a[l][i] == 1) {
+        for (int i = l; i < r; i++) {
+            if (a[y][i] == 1) {
                 hit++;
             }
         }
-        return hit > ((y - x) * (n / 100.0));
+        return hit > ((r - l) * (n / 100.0));
     }
 
     // true=line hit more then n% of line characters
@@ -405,6 +549,27 @@ public class OCR_Processor {
     }
 
     public int[][] trim(int[][] a) {
+        try {
+            int t = 0, b = a.length - 1, l = 0, r = a[0].length - 1;
+            while (!lineCheckH(a, t, t, 1, l, r)) {
+                t++;
+            }
+            while (!lineCheckH(a, b, b, 0, l, r))
+                b--;
+            while (!lineCheckV(t, b, l, 0, a))
+                l++;
+            while (!lineCheckV(t, b, r, 0, a))
+                r--;
+            int[][] a2 = new int[b - t + 2][r - l + 2];
+            a2 = copy2d(a, t, b, l, r);
+            return a2;
+        } catch (Exception e) {
+            print2DArray(a);
+            return new int[1][1];
+        }
+    }
+
+    public int[][] trimL(int[][] a) {
         int t = 0, b = a.length - 1, l = 0, r = a[0].length - 1;
         while (!lineCheckH(a, t, t, 1, l, r)) {
             t++;
@@ -415,7 +580,7 @@ public class OCR_Processor {
             l++;
         while (!lineCheckV(t, b, r, 0, a))
             r--;
-        int[][] a2 = new int[b - t + 2][r - l + 2];
+        int[][] a2 = new int[b - t + 4][r - l + 4];
         a2 = copy2d(a, t, b, l, r);
         return a2;
     }

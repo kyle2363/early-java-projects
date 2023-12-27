@@ -12,29 +12,23 @@ import javax.imageio.ImageIO;
 public class OCR_main {
     public static void main(String[] args) throws IOException {
         OCR_Processor pro = new OCR_Processor();
-        /*String imagePath = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\Word_The.png";
-        String img2 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\10_degree.png";
-        BufferedImage myPicture = ImageIO.read(new File(imagePath));
-        BufferedImage myPicture2 = ImageIO.read(new File(img2));
-        int[][] a = imgToArray(myPicture, 15);
-        String s = pro.processArray(a);*/
-
-        /*String img3 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\test text.png";
-        BufferedImage pic3 = ImageIO.read(new File(img3));
-        String s2 = pro.processArray(imgToArray(scaleBI(pic3,2), 25));
-        System.out.println(s2.toLowerCase());
-        System.out.println();*/
-        String img4 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\Screenshot (65).png";
-        BufferedImage pic4 = ImageIO.read(new File(img4));
-        //print2DArray(imgToArray(scaleBI(pic4,2),25));
-        String s3 = pro.processArray(imgToArray(scaleBI(pic4,2), 25));
-        System.out.println(s3.toLowerCase());
+        String img5 = "C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\real_test\\block2.jpg";//"C:\\Users\\Sae\\Documents\\GitHub\\CS_Portfolio\\OCR_test\\real_test\\the1.jpg";
+        BufferedImage pic5 = ImageIO.read(new File(img5));
+        double scale=1;
+        if(pic5.getWidth()<2000)
+        {
+            scale=1.5;
+        }
+        String s3 = pro.processArray(imgToArray(scaleBI(pic5, scale), 25));
+        System.out.println("Output: " + s3.toLowerCase());
     }
-    public static BufferedImage scaleBI(BufferedImage pic,int scale)
-    {
+
+    public static BufferedImage scaleBI(BufferedImage pic, double scale) {
+        if(scale==1.0)
+            return pic;
         int w = pic.getWidth();
         int h = pic.getHeight();
-        BufferedImage after = new BufferedImage(w * scale, h * scale, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage after = new BufferedImage((int) (w * scale), (int) (h * scale), BufferedImage.TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         at.scale(scale, scale);
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
@@ -43,34 +37,54 @@ public class OCR_main {
 
     public static int[][] imgToArray(BufferedImage pic, int t) {
         int h = pic.getHeight(), w = pic.getWidth();
+        Color avgWhite = getAvgColor(pic);
         int[][] a = new int[h + 2][w + 2];
         for (int i = 1; i < h; i++) {
             for (int j = 1; j < w; j++) {
                 Color c = new Color(pic.getRGB(j, i));
-                if (c.getRed() < t && c.getGreen() < t && c.getBlue() < t) {
+                if (c.getRed() < avgWhite.getRed()/2 && c.getGreen() < avgWhite.getGreen()/2
+                        && c.getBlue() < avgWhite.getBlue()/2) {
                     a[i][j] = 1;
                 }
             }
         }
-        boolean go = true;
-        int coloum = 0;
-        while (go) {
-            for (int i = 0; i < a.length; i++) {
-                if (a[i][coloum] == 1) {
-                    go = false;
-                    coloum--;
-                }
-            }
-            coloum++;
-        }
-        int[][] a2 = new int[h][w - coloum + 2];
-        for (int i = 0; i < h; i++) {
-            for (int j = coloum; j < h + 2; j++) {
-                a2[i][j - coloum] = a[i][j];
-            }
-        }
+        /*
+         * boolean go = true;
+         * int coloum = 0;
+         * while (go) {
+         * for (int i = 0; i < a.length; i++) {
+         * if (a[i][coloum] == 1) {
+         * go = false;
+         * coloum--;
+         * }
+         * }
+         * coloum++;
+         * }
+         * int[][] a2 = new int[h][w - coloum + 2];
+         * for (int i = 0; i < h; i++) {
+         * for (int j = coloum; j < h + 2; j++) {
+         * a2[i][j - coloum] = a[i][j];
+         * }
+         * }
+         */
 
         return a;
+    }
+
+    public static Color getAvgColor(BufferedImage img) {
+        double avgR = 0, avgG = 0, avgB = 0;
+        int total = 1;
+        for (int i = 0; i < img.getHeight(); i++) {
+            for (int j = 0; j < img.getWidth(); j++) {
+                Color c = new Color(img.getRGB(j, i));
+                avgR = (avgR * (total-1) + c.getRed()) / total;
+                avgG = (avgG * (total-1) + c.getBlue()) / total;
+                avgB = (avgB * (total-1) + c.getGreen()) / total;
+                total++;
+            }
+        }
+        Color avgC = new Color((int) avgR, (int) avgG, (int) avgB);
+        return avgC;
     }
 
     public static void print2DArray(int[][] a) {
