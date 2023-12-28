@@ -29,10 +29,10 @@ public class OCR_Letter {
             mypic4 = ImageIO.read(new File(img4));
         } catch (IOException e) {
         }
-        
+        // turn img to 2d arrays of letters
         punList = new ArrayList<>();
         edgeList = new ArrayList<>();
-        //0 short 1 tall
+        // 0 short 1 tall
         punListHeight = new ArrayList<>();
         capA = imgToArray(myPicture, 15);
         lowA = imgToArray(myPicture2, 15);
@@ -42,12 +42,19 @@ public class OCR_Letter {
         low = createArrays(lowA);
         pun = createArrays(punA);
         edge = createArrays(edgeA);
+        capA = null;
+        lowA = null;
+        punA = null;
+        edgeA = null;
+        myPicture = null;
+        myPicture2 = null;
+        myPicture3 = null;
+        mypic4 = null;
         Collections.addAll(punList, '!', '“', '#', '&', '‘', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=',
-                '>', '?', '@','`');
+                '>', '?', '@', '`');
 
-
-        Collections.addAll(punListHeight,1,0,1,1,0,1,1,0,0,0,0,0,1,1,1,1,0,1,1,1);
-        Collections.addAll(edgeList, "ff","ft","rv", "tw", "rt", "fy", "fo","tw","fa");
+        Collections.addAll(punListHeight, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1);
+        Collections.addAll(edgeList, "ff", "ft", "rv", "tw", "rt", "fy", "fo", "tw", "fa");
     }
 
     public int[][] getChar(char a) {
@@ -77,14 +84,14 @@ public class OCR_Letter {
         }
         // starting at temp create the indvidual arrays
         int i = 0, r = 0;
-        System.out.println(baseImg.length);
+        // System.out.println(baseImg.length);
         while (i < indexs.size() - 1) {
             r = i + 1;
             while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
                 r++;
-            if(pun!=null&&r+10 < indexs.size() - 1 && indexs.get(r+10) == (indexs.get(r + 11) - 1)
-                &&(indexs.get(r+10)-(indexs.get(r)))<20){
-                r+=10;
+            if (pun != null && r + 10 < indexs.size() - 1 && indexs.get(r + 10) == (indexs.get(r + 11) - 1)
+                    && (indexs.get(r + 10) - (indexs.get(r))) < 20) {
+                r += 10;
                 while (r < indexs.size() - 1 && indexs.get(r) == (indexs.get(r + 1) - 1))
                     r++;
             }
@@ -127,7 +134,7 @@ public class OCR_Letter {
             }
             coloum++;
         }
-        int[][] a2 = new int[h+2][w - coloum + 2];
+        int[][] a2 = new int[h + 2][w - coloum + 2];
         for (int i = 0; i < h; i++) {
             for (int j = coloum; j < h + 2; j++) {
                 a2[i][j - coloum] = a[i][j];
