@@ -1,38 +1,50 @@
-# CS_Portfolio
-All Code from high school
+# Early Java Projects
 
-Code is sorted in to folders by what genral topic they cover then by a folder conatining the needed classes
+A collection of Java programming projects and experiments developed primarily during high school (2022–2023).
 
-Most code should work as normal but some of the more advance programs made may need changes due to static non static conflicts in ide
+These projects document my early exploration of algorithms, data structures, object-oriented programming, and software development. They range from small programming exercises to more substantial experiments involving games, image processing, and concurrency.
 
-Majorty of smaller projects were made in the time period of December 2022 to March 2023
+**Note:** This repository is maintained as an archive of earlier work. The code has largely been preserved in its original form, and some projects may require modifications to compile or run with modern Java environments.
 
 ## Notable Projects
 
-**Tic_Tac_Toe**
-  - Designing a tic-tac-toe game with unlimited size
-  - limit on the number of game pieces on the board
-  - Focus on the most efficient RAM and runtime usage
-  - Mainly constant time relative to initial game settings
-  - demonstrated process of iteration upon code with multiple variations
+### Configurable Tic-Tac-Toe
+**Directory:** [Tic_Tac_Toe](Tic_Tac_Toe/)
 
-**Optical Character Recognition**
-  - A program to read text in Arial font into a string based on an input image
-  - Bulit from scratch to process images, break up text, and identify characters
-  - It works as a mobile app on Android with real-world images from a camera.
-  - Android version - https://github.com/sae2363/OCR_app - access TBA
+An extended version of Tic-Tac-Toe exploring variable board sizes, game-state management, and memory and runtime efficiency.
 
-**Family Tree**
-  - Using pointers to create a linked list in a structure that is similar to a family tree
-  - Retrieving names relative to a single name and traversing the list
-  - constructing a two-way list from a single root node while maintaining the structure of a family tree
+The project includes multiple implementation iterations as I experimented with different approaches to representing and updating the game board.
 
-**Other**
+### Optical Character Recognition
+**Directory:** [OCR_test](OCR_test/)
 
-Geussing game
-- use of Threading, locks, and networking
+An early attempt at implementing character recognition without relying on a pretrained OCR model.
 
-Java in java
-- Runs code using a string Input repsenting the code
+The project explores processing input images, separating text into recognizable components, and identifying characters, initially focusing on Arial font.
 
+### Family Tree Data Structure
+**Directory:** [family_tree](family_tree/)
 
+A tree-like data structure using Java object references to represent relationships between family members.
+
+Explores linked structures, bidirectional relationships, and traversing connected nodes to retrieve family relationships.
+
+### Networked Guessing Games
+**Directory:** [Geussing_games](Geussing_games/)
+
+Experiments with multiplayer guessing games using Java threads, synchronization, locks, and network communication.
+
+### Java Code Interpretation Experiment
+**Directory:** [JavaInJava](JavaInJava/)
+
+An experimental project exploring how Java-like instructions can be represented as strings and interpreted by a program.
+
+## Additional Programs
+
+The repository also contains smaller programming exercises and experiments involving arrays, sorting, Pascal's triangle, text manipulation, and collections.
+
+## Project Status
+
+These projects represent an earlier stage of my programming experience and are preserved primarily for historical and educational purposes.
+
+For more recent work involving software engineering, machine learning, and full-stack applications, visit my [personal portfolio](https://kyle2363.github.io/) or [GitHub profile](https://github.com/kyle2363).
